@@ -1,0 +1,7 @@
+name = "tms-oauth-proxy"
+main = "worker/index.js"
+compatibility_date = "2026-08-26"
+
+[vars]
+GOOGLE_CLIENT_ID = "REPLACE_WITH_TMS_CLIENT_ID"
+ALLOWED_ORIGIN = "chrome-extension://noogafoofpebimajpfpamcfhoaifemoa"
