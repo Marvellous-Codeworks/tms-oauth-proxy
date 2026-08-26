@@ -20,6 +20,14 @@ Response: Google's token endpoint response, passed through as-is.
 
 ## Setup
 
+Deploy is via Cloudflare's Git integration: connect this repo in the
+Cloudflare dashboard (Workers & Pages → Create → Connect to Git), it builds
+and deploys automatically on every push to `main`.
+
+Set the secret once, either from the dashboard (Settings → Variables and
+Secrets → add `GOOGLE_CLIENT_SECRET` as encrypted) or from the CLI against
+the remote project:
+
 ```
 npm install
 wrangler login
@@ -28,13 +36,8 @@ wrangler secret put GOOGLE_CLIENT_SECRET
 
 Update `GOOGLE_CLIENT_ID` and `ALLOWED_ORIGIN` in `wrangler.toml` if either
 ever changes (new client, or new extension ID after a re-publish under a
-different key).
-
-## Deploy
-
-```
-npm run deploy
-```
+different key) — these are plain vars, committed, and picked up on the next
+Git-triggered deploy.
 
 Publishes to `https://tms-oauth-proxy.<your-subdomain>.workers.dev`.
 

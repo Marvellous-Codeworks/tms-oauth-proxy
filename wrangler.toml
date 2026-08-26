@@ -3,5 +3,5 @@ main = "worker/index.js"
 compatibility_date = "2026-08-26"
 
 [vars]
-GOOGLE_CLIENT_ID = "REPLACE_WITH_TMS_CLIENT_ID"
+GOOGLE_CLIENT_ID = "630779328171-mge0g9vebmq4pkihhi6gqs9a2agpu07e.apps.googleusercontent.com"
 ALLOWED_ORIGIN = "chrome-extension://noogafoofpebimajpfpamcfhoaifemoa"
