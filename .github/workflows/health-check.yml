@@ -1,0 +1,47 @@
+name: Health check
+
+# Sends a fake refresh token through the Worker. Google answers `invalid_grant` only
+# after accepting the client, so that answer proves the Worker, its origin check, the
+# client secret and Google's token endpoint all work. A real token is never involved.
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  token-exchange:
+    name: Token exchange
+    if: github.repository == 'Marvellous-Codeworks/tms-oauth-proxy'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check the Worker
+        env:
+          WORKER_URL: https://tms-oauth-proxy.gioxx.workers.dev/token
+          ORIGIN: chrome-extension://noogafoofpebimajpfpamcfhoaifemoa
+        run: |
+          status=$(curl --silent --show-error --max-time 30 --retry 2 --retry-delay 20 \
+            --output response.json --write-out '%{http_code}' \
+            --request POST "$WORKER_URL" \
+            --header "Origin: $ORIGIN" \
+            --header 'Content-Type: application/json' \
+            --data '{"grant_type":"refresh_token","refresh_token":"health-check-not-a-real-token"}')
+          error=$(jq -r '.error // empty' response.json 2>/dev/null || true)
+          if [ "$status" != "400" ] || [ "$error" != "invalid_grant" ]; then
+            echo "::error::Expected 400 invalid_grant, got HTTP $status with error '$error'"
+            exit 1
+          fi
+          echo "Worker OK: HTTP $status, $error"
+
+  keepalive:
+    name: Keep the schedule enabled
+    # GitHub disables scheduled workflows after 60 days without repository activity.
+    if: ${{ always() && github.event_name == 'schedule' }}
+    needs: token-exchange
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - uses: liskin/gh-workflow-keepalive@f72ff1a1336129f29bf0166c0fd0ca6cf1bcb38c # v1.2.1
