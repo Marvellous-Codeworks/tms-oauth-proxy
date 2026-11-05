@@ -168,3 +168,7 @@ If the client secret is ever rotated in Google Cloud Console, update it here
 with `wrangler secret put GOOGLE_CLIENT_SECRET` and redeploy. No extension
 release is needed for a rotation, since the secret never ships in the
 package.
+
+## License
+
+[AGPL-3.0](LICENSE)

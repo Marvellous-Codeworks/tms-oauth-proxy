@@ -1,6 +1,7 @@
 {
   "name": "tms-oauth-proxy",
   "private": true,
+  "license": "AGPL-3.0-only",
   "version": "1.0.0",
   "scripts": {
     "dev": "wrangler dev",
