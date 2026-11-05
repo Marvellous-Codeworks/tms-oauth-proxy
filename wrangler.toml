@@ -6,18 +6,14 @@ compatibility_date = "2026-08-26"
 GOOGLE_CLIENT_ID = "630779328171-mge0g9vebmq4pkihhi6gqs9a2agpu07e.apps.googleusercontent.com"
 ALLOWED_ORIGIN = "chrome-extension://noogafoofpebimajpfpamcfhoaifemoa"
 
+# Logs and traces stay off: the Worker handles OAuth tokens and doesn't need them.
+# Availability is covered by .github/workflows/health-check.yml.
 [observability]
 enabled = false
-head_sampling_rate = 1
-redact_query_string = false
 
 [observability.logs]
-enabled = true
-head_sampling_rate = 1
-persist = true
-invocation_logs = true
+enabled = false
+invocation_logs = false
 
 [observability.traces]
-enabled = true
-persist = true
-head_sampling_rate = 1
+enabled = false

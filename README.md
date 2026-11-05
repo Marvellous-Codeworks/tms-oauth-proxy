@@ -50,8 +50,9 @@ worker instead of talking to Google's token endpoint directly.
   as-is (status code included).
 - Does **not** store, log, or inspect the code/token/secret values it
   handles. No `console.log` of request or response bodies anywhere in the
-  code, so Cloudflare's request logging (if you enable it) only ever sees
-  metadata (timestamps, status codes, IP/geo), never the payload.
+  code, so Cloudflare's request logging only ever sees metadata (timestamps,
+  status codes, IP/geo), never the payload. Workers Logs and traces are
+  turned off in `wrangler.toml`.
 - Does **not** replace Google as the actual security boundary. See below.
 
 ## Endpoint
